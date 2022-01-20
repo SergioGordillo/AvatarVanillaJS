@@ -9,32 +9,72 @@
     <script src="index.js"></script>
     <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 </head>
 <body>
     <h1>Women in Tech</h1>
     <div id="app">
     </div>
 
-    <script>
-        const app = document.getElementById("app"); 
+    <script type="text/babel">
+        const app = document.getElementById("app");
+        const useState = React.useState; 
+        
+        // const h = React.createElement;
 
-        const Avatar = params => {
-            const src = `https://randomuser.me/api/portraits/women/${params.id}.jpg`;
-            return `
-            <picture>
-                <img src="${src}"/> 
-                <h3>${params.name}<h3>
-            </picture> `
+        const Avatar = ({id, name = "unknown woman", size}) => {
+
+            const [enabled, setEnabled] = useState(true);
+
+            const src = `https://randomuser.me/api/portraits/women/${id}.jpg`;
+
+            const pictureClassName = size === "small" ? "is-small" : ""; 
+            const imgClassName = enabled ? "" : "disabled";  
+           
+            return (
+                <picture className={pictureClassName}>
+                    { id  
+                        ? <img 
+                            onClick={()=>setEnabled(!enabled)}
+                            className={imgClassName} 
+                            src={src}/>
+                        : "You need to introduce an id to load the avatar"}
+                    <span>{enabled ? name : "Avatar disconnected"}</span>
+                </picture>
+                );
         }
 
-        app.innerHTML += Avatar({id: 5, name: "María"});
-        app.innerHTML += Avatar({id: 6, name: "Sonia"});
+        // ReactDOM.Render(h(Avatar, { id: 1}), domContainer);
+        ReactDOM.render(
+            <div>
+           <Avatar id={10} name="Ana"/> 
+           <Avatar id={23} name="Marta" size="small"/> 
+           <Avatar name="Rosalía"/> 
+           </div>,
+           app
+        );
+
+
+
+ 
+
+        // const Avatar = props => {
+        //     const src = `https://randomuser.me/api/portraits/women/${props.id}.jpg`;
+        //     return `
+        //     <picture>
+        //         <img src="${src}"/> 
+        //         <h3>${props.name}<h3>
+        //     </picture> `
+        // }
+
+        // app.innerHTML += Avatar({id: 5, name: "María"});
+        // app.innerHTML += Avatar({id: 6, name: "Sonia"});
         
-        app.querySelectorAll("img").forEach(img=>{
-            img.addEventListener("click", ()=>{
-                img.classList.toggle("disabled");
-            })
-        });  
+        // app.querySelectorAll("img").forEach(img=>{
+        //     img.addEventListener("click", ()=>{
+        //         img.classList.toggle("disabled");
+        //     })
+        // });  
     </script>
 </body>
 </html>

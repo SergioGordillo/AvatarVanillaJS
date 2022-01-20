@@ -5,11 +5,15 @@ picture {
     width: 100px;
 }
 
+picture.is-small {
+    width: 50px;
+}
+
 
 img {
     border-radius: 50%;
     box-shadow: 0 0 15px #999;
-    width: 100px;
+    width: 100%;
     cursor: pointer;
 }
 
